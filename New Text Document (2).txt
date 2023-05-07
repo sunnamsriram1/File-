@@ -1,0 +1,68 @@
+ నిర్ణయం తీసుకోవడం అనేది ఏదైనా ప్రోగ్రామింగ్ భాషలో ముఖ్యమైన భాగం, మరియు పైథాన్ మీ ప్రోగ్రామ్‌లలో నిర్ణయాలు తీసుకోవడానికి అనేక మార్గాలను అందిస్తుంది. పైథాన్‌లో అత్యంత సాధారణ నిర్ణయం తీసుకునే నిర్మాణాలు స్టేట్‌మెంట్ if, if-elseస్టేట్‌మెంట్, if-elif-elseస్టేట్‌మెంట్ మరియు టెర్నరీ ఆపరేటర్.
+
+ifస్టేట్‌మెంట్: ifస్టేట్‌మెంట్ షరతును తనిఖీ చేయడానికి మరియు కండిషన్ అయితే కోడ్ బ్లాక్‌ని అమలు చేయడానికి ఉపయోగించబడుతుంది True.
+సింటాక్స్:
+
+if condition:
+    # code to be executed if the condition is True
+
+ఉదాహరణ:
+
+x = 10
+if x > 5:
+    print("x is greater than 5")
+
+అవుట్‌పుట్:
+
+x is greater than 5
+
+if-elseస్టేట్‌మెంట్: if-elseస్టేట్‌మెంట్ షరతును తనిఖీ చేయడానికి మరియు కండిషన్ అయితే ఒక కోడ్ బ్లాక్‌ను అమలు చేయడానికి Trueమరియు షరతు అయితే మరొక బ్లాక్ కోడ్‌ని అమలు చేయడానికి ఉపయోగించబడుతుంది False.  సింటాక్స్:
+if condition:
+    # code to be executed if the condition is True
+else:
+    # code to be executed if the condition is False
+
+ఉదాహరణ:
+
+x = 3
+if x > 5:
+    print("x is greater than 5")
+else:
+    print("x is less than or equal to 5")
+
+అవుట్‌పుట్:
+
+x is less than or equal to 5
+if-elif-elseప్రకటన: if-elif-elseస్టేట్‌మెంట్ బహుళ షరతులను తనిఖీ చేయడానికి మరియు మొదటి షరతు ఆధారంగా కోడ్ బ్లాక్‌ని అమలు చేయడానికి ఉపయోగించబడుతుంది True.
+సింటాక్స్:
+
+if condition1:
+    # code to be executed if condition1 is True
+elif condition2:
+    # code to be executed if condition2 is True
+else:
+    # code to be executed if all conditions are False
+
+ఉదాహరణ:
+
+x = 3
+if x > 5:
+    print("x is greater than 5")
+elif x == 5:
+    print("x is equal to 5")
+else:
+    print("x is less than 5")
+
+అవుట్‌పుట్:
+
+x is less than 5
+టెర్నరీ ఆపరేటర్: టెర్నరీ ఆపరేటర్ అనేది if-elseఒకే లైన్‌లో స్టేట్‌మెంట్‌ను వ్రాయడానికి ఒక సంక్షిప్త మార్గం.
+సింటాక్స్:
+
+value_if_true if condition else value_if_false
+
+ఉదాహరణ:
+
+x = 3
+result = "x is greater than 5" if x > 5 else "x is less than or equal to 5"
+print(result)

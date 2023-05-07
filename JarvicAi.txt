@@ -1,0 +1,451 @@
+import speech_recognition as sr
+import pyaudio
+import pyttsx3
+import datetime as dt
+import pywhatkit as kit
+import wikipedia as wiki
+import webbrowser as wb
+from plyer import notification
+from bs4 import BeautifulSoup
+import requests
+import pyjokes
+import json
+from geopy.geocoders import Nominatim
+from geopy.distance import great_circle
+import geocoder
+
+
+
+listener = sr.Recognizer()
+
+speaker = pyttsx3.init()
+
+""" RATE"""
+rate = speaker.getProperty('rate')   # getting details of current speaking rate
+
+speaker.setProperty('rate', 150)     # setting up new voice rate
+
+def make_request(url):
+  response = requests.get(url)
+  return response.text
+
+def speak(text):
+    speaker.say('Yes Sir, ' + text)
+    speaker.runAndWait()
+
+def speak_ex(text):
+    speaker.say(text)
+    speaker.runAndWait()
+
+def speak_ex1(text):
+    speaker.say(text)
+    speaker.runAndWait()
+
+
+
+
+va_name = "Jarvis"
+#va_name = 'Alex'
+#va_name = "Sriram"
+#va_name = "John"
+#va_name = "Ultron"
+#va_name = "BoyBot"
+#va_name = "Jupiter"
+#va_name = "Kingston"
+#va_name = "Ryan"
+#va_name = "Albatross"
+
+#speak_ex('I am Your ' + va_name + ', Tell me Sir.')
+
+speak_ex('My Name is ' + va_name + 'I am your Assistant')
+
+def take_command():
+      command = ' '
+      try:
+          with sr.Microphone() as source:
+              print('Listening.....')
+              print(' ')
+              voice = listener.listen(source)
+              command = listener.recognize_google(voice)
+              command = command.lower()
+              if va_name in command:
+                  command = command.replace(va_name + ' ', '')
+                  #print(command)
+                  #speak(command)
+      except:
+          #print('Check Your Microphone')
+          print("How can i Help you, Sir")
+          print(' ')
+      return command
+
+while True:
+
+    user_command = take_command()
+    #print(user_command)
+    #speak(user_command)
+
+
+
+
+    if 'close' in user_command:
+        print('See You Again Boss. I Will be There when ever you call me. ')
+        speak('See You Again Boss. I Will be There when ever you call me. ')
+        break
+    if "joke" in user_command:
+        joke = pyjokes.get_joke()
+        print(joke)
+        speak(joke)
+    if 'google' in user_command:
+        speak('Okey! Openning google')
+        wb.open('www.google.co.in')
+        speak('google has been opened')
+    if'sprogram' in user_command:
+        speak('Okey! Opening sprogram ')
+        url = 's program001'
+        wb.open(url)
+
+
+    if 'instagram' in user_command:
+        speak('opening instagram Sir!')
+        #self.compText.set('opening instagram Sir!')
+        wb.open('www.instagram.com')
+    if 'whatsapp' in user_command:
+        speak('Opening whatsapp Sir')
+        #self.compText.set('opening whatsapp Sir')
+        wb.open('www.whatsapp.com')
+    if 'youtube' in user_command:
+        speak('Opening Youtube Sir')
+        wb.open('www.youtube.com')
+
+
+    if 'calculator' in user_command:
+        speak("Select Operation")
+        # print("Select operation.")
+        # print("1.Add")
+
+
+        # Program make a simple calculator
+
+        # This function adds two numbers
+        def add(x, y):
+            return x + y
+
+
+        # This function subtracts two numbers
+        def subtract(x, y):
+            return x - y
+
+
+        # This function multiplies two numbers
+        def multiply(x, y):
+            return x * y
+
+
+        # This function divides two numbers
+        def divide(x, y):
+            return x / y
+
+
+        print("Select operation.")
+        print("1.Add")
+        print("2.Subtract")
+        print("3.Multiply")
+        print("4.Divide")
+
+        while True:
+            # take input from the user
+            choice = input("Enter choice(1/2/3/4): ")
+
+            # check if choice is one of the four options
+            if choice in ('1', '2', '3', '4'):
+                num1 = float(input("Enter first number: "))
+                num2 = float(input("Enter second number: "))
+
+                if choice == '1':
+                    print(num1, "+", num2, "=", add(num1, num2))
+
+                elif choice == '2':
+                    print(num1, "-", num2, "=", subtract(num1, num2))
+
+                elif choice == '3':
+                    print(num1, "*", num2, "=", multiply(num1, num2))
+
+                elif choice == '4':
+                    print(num1, "/", num2, "=", divide(num1, num2))
+
+                # check if user wants another calculation
+                # break the while loop if answer is no
+                next_calculation = input("Let's do next calculation? (Enter)(Exit): ")
+                if next_calculation == "no":
+                    break
+
+            else:
+                print("Invalid Input")
+
+
+
+
+    if 'adding' in user_command:
+        speak("Enter first number: ")
+        num1 = float(input("Enter first number: "))
+        speak("Enter second number: ")
+        num2 = float(input("Enter second number: "))
+        add = (num1 + num2)
+        speak_ex(add)
+        print(add)
+
+    elif 'time' in user_command:
+        cur_time = dt.datetime.now().strftime("%I:%M:%S:%fSeconds %p")
+        print(cur_time)
+        speak(cur_time)
+        #speak(cur_time)
+
+
+
+    elif 'date' in user_command:
+        cur_date = dt.datetime.now().strftime("%d-%m-%Y,%A")
+        print(cur_date)
+        speak(cur_date)
+    elif'bbc news' in user_command:
+        _NEWS_API = "https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey="
+
+
+        def fetch_bbc_news(bbc_news_api_key: str) -> None:
+            # fetching a list of articles in json format
+            bbc_news_page = requests.get(_NEWS_API + bbc_news_api_key).json()
+            # each article in the list is a dict
+            for i, article in enumerate(bbc_news_page["articles"], 1):
+                print(" ")
+                print(f"{i}.) {article['title']}")
+                speak_ex(f"{i}.) {article['title']}")
+                # speak({i}.) {article['title']})
+
+
+        if __name__ == "__main__":
+            fetch_bbc_news(bbc_news_api_key="718b1a4a84614ca29a61e2e17ab9a554")
+
+
+
+    elif 'year' in user_command:
+        cur_year = dt.datetime.now().strftime("%Y")
+        print(cur_year)
+        speak(cur_year)
+    elif "i love you" in user_command:
+        speak("It's hard to understand")
+    elif 'how are you' in user_command:
+        speak("I am fine, Thank you")
+        speak_ex("How are you, Sir")
+    elif 'good morning' in user_command:
+        speak_ex("Have a Good Day Sir")
+        speak_ex("How are you Sir.")
+        speak_ex("What are you doing today work")
+    elif 'nothing' in user_command:
+        speak_ex("How are you Friends Sir.")
+        # print(speak)
+    elif 'my friends all happy' in user_command:
+        speak_ex("Life is incomplete without friends and so, this occasion provides us with just the right chance to express our gratitude and thanks to our friends who have always been there for us, in good and bad times")
+    elif 'thank you' in user_command:
+        speak_ex("its ok don't worry Sir")
+
+    elif 'what are you doing' in user_command:
+        speak_ex("Nothing Sir.")
+        speak_ex("You Sir.")
+    elif 'i am fine' in user_command:
+        speak_ex("Welcome to My World, Sir")
+    elif 'fine' in user_command:
+        speak_ex("ok Sir.")
+    elif "who i am" in user_command:
+        speak("If you talk then definitely your human.")
+        print(speak)
+
+    elif "why you came to world" in user_command:
+        speak("Thanks to Gaurav. further It's a secret")
+
+    elif 'is love' in user_command:
+        speak("It is 7th sense that destroy all other senses")
+
+    elif 'reason for you' in user_command:
+        speak("I was created as a Minor project by Mister Gaurav ")
+
+    elif 'open stackoverflow' in user_command:
+        speak("Here you go to Stack Over flow.Happy coding")
+        wb.open("stackoverflow.com")
+
+    elif "don't listen" in user_command or "stop listening" in user_command:
+        speak("for how much time you want to stop jarvis from listening")
+
+    elif "write a note" in user_command:
+        speak("What should i write, sir")
+        note = take_command()
+        file = open('jarvis.txt', 'w')
+        speak("Sir, Should i include date and time")
+        user_command = take_command()
+        if 'yes' in user_command or 'sure' in user_command:
+            strTime = dt.datetime.now().strftime("% H:% M:% S")
+            file.write(strTime)
+            file.write(" :- ")
+            file.write(note)
+        else:
+            file.write(note)
+    elif "show note" in user_command:
+        speak("Showing Notes")
+        file = open("jarvis.txt", "r")
+        print(file.read())
+        speak(file.read(6))
+
+    elif "update assistant" in user_command:
+       speak_ex("After downloading file please replace this file with the downloaded one")
+    #
+    # elif 'play' in user_command:
+    #     user_command = user_command.replace('play ', ' ')
+    #     print('Playing ' + user_command)
+    #     speak('Playing ' + user_command + ', Enjoy Boss.')
+    #     kit.playonyt(user_command)
+    #     #kit.playonyt("PyWhatKit")
+    #     break
+    # elif 'search for' in user_command or 'google' in user_command:
+    #     user_command = user_command.replace('search for ', ' ')
+    #     user_command = user_command.replace('google ', ' ')
+    #     speak('Searching for ' + user_command)
+    #     kit.search(user_command)
+    elif 'who is' in user_command or 'what is' in user_command:
+        user_command = user_command.replace('who is ', ' ')
+        user_command = user_command.replace('what is ', ' ')
+        info = wiki.summary(user_command, 3)
+        print(info)
+        speak(info)
+
+    elif 'who are you' in user_command:
+        speak_ex('My Name is ' + va_name + 'I am your Assistant')
+        speak_ex("Tell me Sir.")
+
+
+    elif 'my location' in user_command:
+        ip_add = requests.get('https://api.ipify.org').text
+        url = 'https://get.geojs.io/v1/ip/geo/' + ip_add + '.json'
+        geo_requests = requests.get(url)
+        geo_data = geo_requests.json()
+        city = geo_data['city']
+        state = geo_data['region']
+        country = geo_data['country']
+        speak_ex('Your Location  Details ')
+        print('Ip Address :', ip_add)
+        print('City_Name :', city)
+        print('State :', state)
+        print('Country :', country)
+        speak_ex(f'Ip Address  {ip_add}\n City_Name  {city}\n State {state}\n Country {country}')
+        # print('Ip Address =', ip_add)
+        # speak_ex('You Are ip address')
+        # speak_ex(ip_add)
+        #
+        # print('City_Name =', city)
+        # speak_ex('city name')
+        # speak_ex(city)
+        #
+        # print('State =', state)
+        # speak_ex('state')
+        # speak_ex(state)
+        #
+        # print('Country =', country)
+        # speak_ex('country')
+        # speak_ex(country)
+        #
+
+
+
+    # elif "today weather" in user_command:
+    #
+    #     # Google Open weather website
+    #     # to get API of Open weather
+    #     api_key = "pro.openweathermap.org/data/2.5/forecast/hourly?q="
+    #     base_url = "http://api.openweathermap.org / data / 2.5 / weather?"
+    #     speak(" City name ")
+    #     print("City name : ")
+    #     city_name = take_command()
+    #     complete_url = base_url + "appid =" + api_key + "&q =" + city_name
+    #     response = requests.get(complete_url)
+    #     x = response.json()
+    #
+    #     if x["cod"] != "404":
+    #         y = x["main"]
+    #         current_temperature = y["temp"]
+    #         current_pressure = y["pressure"]
+    #         current_humidiy = y["humidity"]
+    #         z = x["weather"]
+    #         weather_description = z[0]["description"]
+    #         print(" Temperature (in kelvin unit) = " + str(
+    #             current_temperature) + "\n atmospheric pressure (in hPa unit) =" + str(
+    #             current_pressure) + "\n humidity (in percentage) = " + str(current_humidiy) + "\n description = " + str(
+    #             weather_description))
+    #
+    #     else:
+    #         speak(" Sorry Sir, I couldn't find the city in my database. Please try again City Not Found ")
+
+
+        #return city, state, country
+
+    elif 'today news' in user_command:
+        url = 'http://newsapi.org/v2/top-headlines?sources=the-times-of-india&apiKey=ae5ccbe2006a4debbe6424d7e4b569ec'
+        news = requests.get(url).text
+        news_dict = json.loads(news)
+        articles = news_dict['articles']
+        speak_ex(articles)
+        speak_ex(news)
+    # elif 'calculater' in user_command:
+    #     url = 'https://www.calculatorsoup.com/calculators/math/basic.php'
+    #     print(url)
+    #     speak(url)
+
+    elif 'covid-19' in user_command:
+      html_data = make_request('https://www.worldometers.info/coronavirus/')
+      print(html_data)
+      soup = BeautifulSoup(html_data, 'html.parser')
+      total_global_row = soup.find_all('tr', {'class': 'total_row'})[-1]
+      total_cases = total_global_row.find_all('td')[2].get_text()
+      new_cases = total_global_row.find_all('td')[3].get_text()
+      total_recovered = total_global_row.find_all('td')[6].get_text()
+      print('total cases : ', total_cases)
+      print('new cases', new_cases[1:])
+      print('total recovered', total_recovered)
+      notification_message = f" Total cases : {total_cases}\n New cases : {new_cases[1:]}\n Total Recovered : {total_recovered}\n"
+      speak(notification_message)
+      speak_ex1(notification.notify)
+      notification.notify(
+        title="COVID-19 Statistics",
+        message=notification_message,
+        timeout=10
+      )
+      speak("here are the stats for COVID-19")
+
+    elif "today weather" in user_command:
+
+        # Google Open weather website
+        # to get API of Open weather
+        api_key = "pro.openweathermap.org/data/2.5/forecast/hourly?q="
+        base_url = "http://api.openweathermap.org / data / 2.5 / weather?"
+        speak(" City name ")
+        print("City name : ")
+        city_name = user_command()
+        complete_url = base_url + "appid =" + api_key + "&q =" + city_name
+        response = requests.get(complete_url)
+        x = response.json()
+
+        if x["cod"] != "404":
+            y = x["main"]
+            current_temperature = y["temp"]
+            current_pressure = y["pressure"]
+            current_humidiy = y["humidity"]
+            z = x["weather"]
+            weather_description = z[0]["description"]
+            print(" Temperature (in kelvin unit) = " + str(
+                current_temperature) + "\n atmospheric pressure (in hPa unit) =" + str(
+                current_pressure) + "\n humidity (in percentage) = " + str(current_humidiy) + "\n description = " + str(
+                weather_description))
+
+        else:
+            speak(" Sorry Sir, I couldn't find the city in my database. Please try again City Not Found ")
+
+
+    else:
+      #speak_ex('Please Say it Again Boss.')
+      speak_ex("How can i Help you, Sir")

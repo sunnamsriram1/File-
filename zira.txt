@@ -1,0 +1,53 @@
+ #1. Talking ZIRA Assintent
+
+import pyttsx3
+
+#vtf = pyttsx3.init()
+#rate = vtf.getProperty('rate')
+#print(rate)                               # getting details of current speaking rate
+#vtf.setProperty('rate', 200'voice', voice[1].id)              # setting up new voice rate  150, 160
+
+def vtf_speak(text):
+    print('Speaking......')
+    eng = pyttsx3.init() #initialize an instance
+    voice = eng.getProperty('voices') #get the available voices
+    # eng.setProperty('voice', voice[0].id) #set the voice to index 0 for male voice
+    eng.setProperty('voice', voice[1].id) #changing voice to index 1 for female voice
+    eng.say(text) #say method for passing text to be spoken
+    eng.runAndWait() #run and process the voice command
+
+#if __name__ == "__main__":
+#    voiceChange()
+
+
+
+
+#def vtf_speak(text):
+    
+#     print('Speaking.......')
+#     print(' ')
+#     vtf.say(text)
+#     vtf.runAndWait()
+     
+
+print(' ')
+x = input('Enter A Text: ')
+# #txt = "Hey,  I am Your Virtual Taking Friend  Hello Wrold"
+# txt = " Welcome back sir  i am Jarvis"
+# #txt = "Welcome. It’s Good to have you back Sir. "
+# #txt = "Hello, I'm one of the voices you can use to speech enable any content, for websites, documents, devices, applications, and more. When I read your text, it sounds like this."
+vtf_speak(x)
+
+print("Hello, I am Zira")
+print(' ')
+vtf_speak("hello, i am Zira")
+
+
+while x != 'bye':
+     x = input('What Should I Say: ')
+     print(' ')
+     x = x.lower()
+     if x != 'bye':
+         vtf_speak(x)
+     else:
+         vtf_speak('See You again Friend, that was Nice Talking to You')

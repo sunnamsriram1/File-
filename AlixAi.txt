@@ -1,0 +1,479 @@
+import speech_recognition
+import os
+import subprocess
+import random
+import datetime
+import requests
+import pyjokes
+import gtts
+import os
+import pyttsx3
+import wikipedia as wiki
+import webbrowser
+import datetime as dt
+import os
+import sys
+import smtplib
+#from helpers import *
+#from youtube import youtube
+from sys import platform
+import os
+import getpass
+import  playsound
+from requests import get
+
+import pyaudio
+import pyttsx3
+from datetime import date, timedelta
+import pywhatkit as kit
+import wikipedia as wiki
+import webbrowser as wb
+import youtube as yt
+from plyer import notification
+from bs4 import BeautifulSoup
+import requests
+import pyjokes
+import json
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
+import calendar
+from tkinter import *
+from collections import namedtuple
+from lxml import html
+import sounddevice as sd
+from scipy.io.wavfile import write
+import wavio as wv
+import  playsound
+import sys as sy
+import turtle
+import os
+import pytz
+import random as rd
+#from diction import translate
+from translate import Translator
+from sys import platform
+import smtplib
+import os
+import socket
+import sys
+import pyjokes
+from bs4 import BeautifulSoup
+from gtts import gTTS
+#import ecapture as ec
+import  wolframalpha
+import time
+from selenium import webdriver
+
+#talk('My Name is ' + va_name + 'I am your Assistant')
+
+class Speed:
+    """Read Speed
+
+    The Google TTS Translate API supports two speeds:
+        Slow: True
+        Normal: None
+    """
+    SLOW = True
+    NORMAL = None
+
+
+
+
+
+def recordCommand():
+    sr = speech_recognition
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print(" ")
+        print("# **************************************************************#")
+        print("# ********** BLEU CALCULATION FUNCTIONS ***********#")
+        print("# **************************************************************#")
+
+
+        print("I Am Jasmine: Listening....")
+        r.pause_threshold = 1.6                  # 1.2
+        audio = r.listen(source)
+        #if va_name in intent:
+        #    intent = intent.replace(va_name + ' ', '')
+
+    try:
+        print("Recognizing...")
+        intent = r.recognize_google(audio, language='en-in')
+        print(f'What I heard: {intent}\n')
+
+
+
+    except Exception as e:
+        print(e)
+        replyToUser("Sorry, didn't understand that Sir!")
+        talk()
+        return None
+
+    return intent.lower()
+
+
+def replyToUser(text):
+    tts = gtts.gTTS(text, lang='en', slow=False)
+    tts.save('talk.mp3')
+
+
+def talk():
+    playsound.playsound('talk.mp3')
+
+
+def wishMe():
+    replyToUser("Welcome back! Sir")
+    talk()
+
+wishMe()
+
+
+
+
+
+while (True):
+
+    intent = recordCommand()
+
+    if (intent == None):
+        replyToUser('Sorry, could not hear anything')
+        replyToUser("How can i Help you, Sir ")
+        talk()
+        continue
+    if 'what is your name' in intent or 'name' in intent:
+        replyToUser("My Name is Jasmine Sir")
+        talk()
+    if 'who are you' in intent:
+        replyToUser('My Name is  Jasmine... I am your Assistant Tell me Sir. ')
+        #replyToUser("Tell me Sir.")
+        talk()
+
+    if 'play music' in intent or 'play a song' in intent:
+        music_dir = "/home/john001/Music"
+        songs = os.listdir(music_dir)
+        os.system('xdg-open ' + os.path.join(music_dir, songs[random.randint(0, len(songs) - 1)]))
+
+    if 'google chrome' in intent or 'browser' in intent:
+        subprocess.call('google-chrome')
+
+    if 'vs code' in intent or 'write code' in intent:
+        subprocess.call('code')
+
+    # if 'take a note' in intent:
+    #     replyToUser('What should I write?')
+    #     talk()
+    #     note_text = recordCommand()
+    #     if (note_text != None):
+    #         f = open('notes.txt', 'a')
+    #         timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+    #         f.write(timestamp + '\n')
+    #         note = note_text + '\n\n'
+    #         f.write(note)
+    #         f.close()
+
+    if 'weather' in intent:
+        replyToUser('Which city?')
+        talk()
+        city = recordCommand()
+        apiKey = '591a35045c6de641dae242c118676369'
+        response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={apiKey}&units=metric')
+        x = response.json()
+        if x["cod"] != "404":
+            y = x['main']
+            temperature = x['main']["temp"]
+            pressure = x['main']["pressure"]
+            humidity = x['main']["humidity"]
+            desc = x["weather"][0]["description"]
+            weather_detail = f'Current temperature is {temperature}, pressure is {pressure} hPa, humidity is {humidity} %, Weather condition is {desc} Sir'
+            replyToUser(weather_detail)
+            print(weather_detail)
+            talk()
+        else:
+            replyToUser('Sorry, could not find the city')
+            talk()
+
+    if 'joke' in intent:
+        joke = pyjokes.get_joke()
+        replyToUser(joke)
+        talk()
+
+    if 'shutdown' in intent and 'minutes' in intent:
+        for word in st.split():
+            if (word.isdigit() == 1):
+                minutes = word
+                break
+        os.system(f'shutdown +{minutes}')
+
+    if 'stop' in intent or "offline" in intent:
+        replyToUser("Going to OFFLINE Sir....i am Stopping Good Bye Sir")
+        talk()
+        break
+
+    if 'cpu' in intent:
+        cpu()
+
+    if 'ip' in intent:
+        ip = get('https://api.ipify.org').text
+        replyToUser(f"Sir your ip address is {ip}")
+        print(ip)
+        talk()
+
+    # if 'date' in intent:
+    #     cur_date = dt.datetime.now().strftime("%d-%m-%Y,%A")
+    #     print(cur_date)
+    #     replyToUser(cur_date)
+    #     talk()
+    if "time" in intent:
+        cur_time = dt.datetime.now().strftime("%I:%M:%S %p")
+        print(cur_time)
+        replyToUser(cur_time)
+        talk()
+        #now = datetime.now()
+        #replyToUser = dt.strftime("%H hours %M minutes %S seconds")
+    if 'thank you' in intent:
+        l2 = ['its ok Sir','of course sir', 'very well','why sir','verry nice' 'too much', 'you are welcome sir', 'so sweet','really','i know','dont forget','so what']
+        ran2 = rd.choice(l2)
+        replyToUser(ran2)
+        talk()
+    if 'love me' in intent:
+        l1 = ['Offcourse I love you Sir', 'Always Sir', 'Yeah I Really love u sir ']
+        ran1 = rd.choice(l1)
+        replyToUser(ran1)
+        talk()
+
+    if 'shutdown' in intent:
+        if platform == "win32":
+            os.system('shutdown /p /f')
+        elif platform == "linux" or platform == "linux2" or "darwin":
+            os.system('poweroff')
+    if 'location' in intent:
+        replyToUser('What is the location?')
+        ip_add = requests.get('https://api.ipify.org').text
+        url = 'https://get.geojs.io/v1/ip/geo/' + ip_add + '.json'
+        geo_requests = requests.get(url)
+        geo_data = geo_requests.json()
+        city = geo_data['city']
+        state = geo_data['region']
+        country = geo_data['country']
+        replyToUser('Your Location  Details ')
+        print('Ip Address :', ip_add)
+        print('City_Name :', city)
+        print('State :', state)
+        print('Country :', country)
+        replyToUser(f'Ip Address  {ip_add}\n City Name  {city}\n State {state}\n Country {country}')
+        talk()
+
+    if 'today bbc news' in intent:
+        _NEWS_API = "https://newsapi.org/v1/articles?source=bbc-news&sortBy=top&apiKey="
+
+        replyToUser("please wait Sir, fetching the latest news")
+        def fetch_bbc_news(bbc_news_api_key: str) -> None:
+            # fetching a list of articles in json format
+            bbc_news_page = requests.get(_NEWS_API + bbc_news_api_key).json()
+            # each article in the list is a dict
+            for i, article in enumerate(bbc_news_page["articles"], 1):
+                print(" ")
+                print(f"{i}.) {article['title']}")
+                replyToUser(f"{i}.) {article['title']}")
+                talk()
+                # speak({i}.) {article['title']})
+
+
+        if __name__ == "__main__":
+            fetch_bbc_news(bbc_news_api_key="718b1a4a84614ca29a61e2e17ab9a554")
+
+    if 'covid-19' in intent:
+        covid_data = namedtuple("covid_data", "cases deaths recovered")
+
+
+        def covid_stats(url: str = "https://www.worldometers.info/coronavirus/") -> covid_data:
+            xpath_str = '//div[@class = "maincounter-number"]/span/text()'
+            return covid_data(*html.fromstring(requests.get(url).content).xpath(xpath_str))
+
+
+        fmt = """\nTotal COVID-19 cases in the world: {}
+                \nTotal Deaths to COVID-19 in the world: {}
+                \nTotal COVID-19 patients recovered in the world: {}"""
+        print(fmt.format(*covid_stats()))
+        replyToUser(fmt.format(*covid_stats()))
+        talk()
+
+    if 'cricket' in intent:
+        news = wb.open_new_tab("cricbuzz.com")
+        replyToUser('This is live news from cricbuzz')
+        talk()
+        time.sleep(6)
+        replyToUser('Sir close the Window')
+        talk()
+        intent = recordCommand()
+        #if 'close' in intent or 'yes' in intent:
+            #news.close(url)
+    if 'who is' in intent or 'what is' in intent:
+        #intent = intent.replace('who is ', ' ')
+        #intent = intent.replace('what is ', ' ')
+        info = wiki.summary(intent, 5)
+        i = wiki.search(intent)
+        w = wiki.page(intent)
+        print(i)
+        replyToUser(i)
+        talk()
+        replyToUser("According to Wikipedia")
+        talk()
+        print(w)
+        replyToUser(w)
+        talk()
+        replyToUser("For your convenience, I am printing it on the screen sir.")
+        talk()
+        print(info)
+        replyToUser(info)
+        talk()
+
+
+    if 'when your  birthday' in intent or 'your birthday' in intent:
+        print('Sir My Birthday Monday, 7 March 2022')
+        replyToUser('Sir My Birthday Monday, 7 March 2022')
+        talk()
+
+
+    elif 'date' in intent:
+        cur_date = dt.datetime.now().strftime("%d-%m-%Y,%A")
+        print(cur_date)
+        replyToUser(cur_date)
+        talk()
+        #print("Current date and time: ", dt.datetime.now())
+        replyToUser('I Showing date time format Sir ')
+        talk()
+        intent = recordCommand()
+        if 'yes' in intent or 'show me' in intent:
+             # print('Yes or No!')
+             # speak_ex("Yes or No")
+             print(" ")
+             replyToUser("Ok Sir  I Show Date Time formats")
+             talk()
+             dt1 = dt.date.today().strftime("%Y")
+             print("Current year: ", dt1)
+             replyToUser('Current year')
+             talk()
+             replyToUser(dt1)
+             talk()
+             dt2 = dt.date.today().strftime("%B")
+             print("Month of year: ", dt2)
+             replyToUser('Month of year')
+             talk()
+             replyToUser(dt2)
+             talk()
+             dt3 = dt.date.today().strftime("%W")
+             print("Week number of the year: ", dt3)
+             replyToUser('Week number of the year')
+             talk()
+             replyToUser(dt3)
+             talk()
+             dt4 = dt.date.today().strftime("%w")
+             print("Weekday of the week: ", dt4)
+             replyToUser('Week of th week')
+             talk()
+             replyToUser(dt4)
+             talk()
+             dt5 = dt.date.today().strftime("%j")
+             print("Day of year: ", dt5)
+             replyToUser('Day of year')
+             talk()
+             replyToUser(dt5)
+             talk()
+             dt6 = dt.date.today().strftime("%d")
+             print("Day of the month : ", dt6)
+             replyToUser('Day of the month')
+             talk()
+             replyToUser(dt6)
+             talk()
+             dt7 = dt.date.today().strftime("%A")
+             print("Day of week: ", dt7)
+             replyToUser('Day of Week')
+             talk()
+             replyToUser(dt7)
+             talk()
+        if 'no' in intent:
+            #print("Ok Sir")
+            replyToUser("Ok Sir")
+            talk()
+
+        # Ultron Data
+
+    elif 'year' in intent:
+        cur_year = dt.datetime.now().strftime("%Y")
+        print(cur_year)
+        replyToUser(cur_year)
+        talk()
+    elif "i love you" in intent:
+        replyToUser("It's hard to understand")
+        talk()
+    elif 'how are you' in intent:
+        replyToUser("I am fine, Thank you")
+        talk()
+        replyToUser("How are you, Sir")
+        talk()
+    elif 'good morning' in intent:
+        replyToUser("Good morning Have a Good Day Sir")
+        talk()
+        replyToUser("How are you Sir.")
+        talk()
+        # speak_ex("What are you doing today work")
+    elif 'good night' in intent:
+        replyToUser("Good Night Sir The day is over, the night is here, know that I love you today and forever, my dear")
+        talk()
+    elif 'nothing' in intent:
+        replyToUser("How are you Friends Sir.")
+        talk()
+        # print(speak)
+    elif 'sorry' in intent:
+        replyToUser("its ok Sir It's hard to understand ")
+        talk()
+    elif 'what are you doing' in intent:
+        replyToUser("Nothing Sir.")
+        talk()
+        replyToUser("You Sir.")
+        talk()
+    elif 'i am fine' in intent:
+        replyToUser("ok Sir Welcome to My World")
+        talk()
+    elif 'hi' in intent or 'hai' in intent:
+        replyToUser("Hi Sir")
+        talk()
+    elif "who i am" in intent:
+        replyToUser("If you talk then definitely your human.")
+        print(replyToUser)
+        talk()
+    elif "why you come to world" in intent:
+        replyToUser("Thanks to you. further It's a secret")
+        talk()
+    elif 'is love' in intent:
+        replyToUser("It is 7th sense that destroy all other senses")
+        talk()
+    elif 'reason for you' in intent:
+        replyToUser("I was created as a Minor project by Mister Siram ")
+        talk()
+    elif 'open stackoverflow' in intent:
+        replyToUser("Here you go to Stack Over flow.Happy coding")
+        wb.open("stackoverflow.com")
+        talk()
+    elif "don't listen" in intent or "stop listening" in intent:
+        replyToUser("for how much time you want to stop jarvis from listening")
+        talk()
+
+    elif 'i am sad' in intent or 'sad' in intent or 'mood' in intent or 'mood off' in intent:
+        s = ['Look at me Sri', 'look here', 'it is instersting', 'i know', 'i dont know', 'carry on', 'Be Careful Sir','Very nice', 'Yes sir', 'dont talk sir', 'dont worry sir', 'really sir', 'what a pity', 'dont fell sir','try to stay happy sir', 'Be Bold sir', 'verry too much sir', 'Dont fear sir','today is you very sad Ah, But i am Very Happy', ]
+        ran = rd.choice(s)
+        replyToUser(ran)
+        talk()
+        intent = recordCommand()
+        if 'yes' in intent or 'why' in intent:
+            y = ['ok sir', 'sorry sir', 'very fun sir', 'Avoid bad friends', 'frist avoid this bad peoples','stay away from the bad guys sir']
+            ran = rd.choice(y)
+            replyToUser(ran)
+            talk()
+    elif 'listen to me' in intent:
+        replyToUser('ok Sir Tell me!')
+        talk()
+
+
+

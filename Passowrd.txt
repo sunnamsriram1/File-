@@ -1,0 +1,21 @@
+import random
+import time
+
+# 𝙎𝙪𝙣𝙣𝙖𝙢 𝙎𝙧𝙞𝙧𝙖𝙢
+
+x = 1
+
+while x <= 2022:
+    time.sleep(0)
+    lower = "abcdefghijklmnopqrstuvwxyz"
+    Upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    digits = "0123456789"
+    symbol = "!@#$%^&*()_+[]{};:?/>.<,\|"
+
+    all = lower + Upper + digits + symbol
+
+    length = 16
+    Password = " ".join(random.sample(all, length))
+    print(x, "𝙋𝘼𝙎𝙎𝙒𝙊𝙍𝘿 𝙂𝙀𝙉𝙀𝙍𝘼𝙏𝙊𝙍:", Password)
+    x += 1
+

@@ -1,0 +1,39 @@
+ #1. Talking Friday Assintent
+
+import pyttsx3
+
+vtf = pyttsx3.init()
+rate = vtf.getProperty('rate')
+print(rate)                               # getting details of current speaking rate
+vtf.setProperty('rate', 200)              # setting up new voice rate  150, 160
+
+
+def vtf_speak(text):
+    
+     print('Speaking.......')
+     print(' ')
+     vtf.say(text)
+     vtf.runAndWait()
+     
+
+
+x = input('Enter A Text: ')
+# #txt = "Hey,  I am Your Virtual Taking Friend  Hello Wrold"
+# txt = " Welcome back sir  i am Jarvis"
+# #txt = "Welcome. It’s Good to have you back Sir. "
+# #txt = "Hello, I'm one of the voices you can use to speech enable any content, for websites, documents, devices, applications, and more. When I read your text, it sounds like this."
+vtf_speak(x)
+
+print("I Am Friday")
+print(' ')
+vtf_speak("i am Friday")
+
+
+while x != 'bye':
+     x = input('What Should I Say: ')
+     print(' ')
+     x = x.lower()
+     if x != 'bye':
+         vtf_speak(x)
+     else:
+         vtf_speak('See You again Friend, that was Nice Talking to You')
